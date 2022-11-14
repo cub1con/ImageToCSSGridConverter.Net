@@ -29,7 +29,7 @@ internal class Program
 
         var tasks = new Task<string>[cores];
 
-        for(int i = 0; i <= cores - 1; i++)
+        for(int i = 0; i <= cores - 1; i++) // Create a thread for every core with height/core rows
         {
             var to = (rowsPerThread * (i + 1));
             if(i + 1 == cores) 
@@ -93,15 +93,16 @@ internal class Program
         var str = new StringBuilder();
         for(int h = fromH; h < toH; h++)
         {
-            //Debug.WriteLine($"T{threadId}: {h}");
             for(int w = 0; w < width; w++)
             {
-                var offset = ((h * width) + w) * depth;
+                var offset = ((h * width) + w) * depth; // Calculate the pixel data offset in the array
+
+                var a = pixels[offset + 3];
+                if (a == 0) continue; // Skip transparent pixel
+
                 var b = pixels[offset];
                 var g = pixels[offset + 1];
                 var r = pixels[offset + 2];
-                var a = pixels[offset + 3];
-                if (a == 0) continue;
 
                 // https://stackoverflow.com/a/38493495
                 str.Append($"<a style=\"background:#{r:X2}{g:X2}{b:X2}{a:X2};grid-column:{w + 1};grid-row:{h + 1}\"/>");
@@ -156,8 +157,7 @@ internal class Program
     {
         if (File.Exists(filename)) File.Delete(filename);
         using (var file = new StreamWriter(filename))
-        {
-            
+        {            
             foreach(var item in content)
             {
                 file.WriteLine(item);
