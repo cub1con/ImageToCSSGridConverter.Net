@@ -1,0 +1,8 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(%REPLACECOL%, 1fr);
+  grid-template-rows: repeat(%REPLACEROW%, 1fr);
+  grid-column-gap: 0px;
+  height: %REPLACEHEIGHT%px;
+  width: %REPLACEWIDTH%px;
+}
